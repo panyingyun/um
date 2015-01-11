@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical" >
+
+    <ListView
+        android:id="@+id/dance_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
+        android:clickable="true"
+        android:divider="#2bb5fc"
+        android:dividerHeight="0.7dip"
+        android:fadingEdge="none"
+        android:padding="3dip"
+        android:scrollbars="none" >
+    </ListView>
+
+
+
+</RelativeLayout>

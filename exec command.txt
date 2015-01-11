@@ -1,0 +1,23 @@
+NAME
+¡¡¡¡execl, execlp, execle, execv, execvp - execute a file
+¡¡¡¡SYNOPSIS
+¡¡¡¡#include <unistd.h>
+¡¡¡¡extern char **environ;
+¡¡¡¡int execl(const char *path, const char *arg, ...);
+¡¡¡¡eg: execl(¡°/bin/ls¡±,¡±ls¡±,¡±-al¡±,¡±/etc/passwd¡±,(char * )0);
+ 
+¡¡¡¡int execlp(const char *file, const char *arg, ...);
+    eg: execlp(¡°ls¡±,¡±ls¡±,¡±-al¡±,¡±/etc/passwd¡±,(char *)0);
+ 
+¡¡¡¡int execv(const char *path, char *const argv[]);
+    eg: char * argv[ ]={¡°ls¡±,¡±-al¡±,¡±/etc/passwd¡±,(char*)0};
+        execv(¡°/bin/ls¡±,argv);
+ 
+    int execve(const char * filename,char * const argv[ ],char * const envp[ ]);
+    eg: char * argv[ ]={¡°ls¡±,¡±-al¡±,¡±/etc/passwd¡±,(char *)0};
+        char * envp[ ]={¡°PATH=/bin¡±,0}
+        execve(¡°/bin/ls¡±,argv,envp);
+ 
+¡¡¡¡int execvp(const char *file, char *const argv[]);
+    eg: char * argv[ ] ={ ¡°ls¡±,¡±-al¡±,¡±/etc/passwd¡±,0};
+        execvp(¡°ls¡±,argv);
