@@ -16,29 +16,29 @@ import android.util.Log;
 
 public class UninstallMonitor {
 	// 开始监控
-	public static void startUninstallMonitor(Context ctx, String url) {
+	public static void start(Context ctx, String url) {
 		String monitordir = ctx.getApplicationInfo().dataDir;
 		String exe = "um";
 		String exepath = ctx.getFilesDir() + File.separator + exe;
 		boolean isSuccess = copyUmSuccess(ctx, exe, exepath);
-		Log.e("test", "isSuccess = " + isSuccess);
+		//Log.e("test", "isSuccess = " + isSuccess);
 		if (!isContainPs(exepath)) {
-			Log.e("test", exepath + " is not exist!");
+			//Log.e("test", exepath + " is not exist!");
 			runmonitor(exepath, exe, monitordir, url, Build.VERSION.SDK_INT);
 		} else {
-			Log.e("test", exepath + " is allready exist!");
+			//Log.e("test", exepath + " is allready exist!");
 		}
 
 	}
 
 	private static void chmod(String exepath) {
 		try {
-			String command = "chmod 755 " + exepath;
-			Log.i("test", "command = " + command);
+			String command = "chmod 777 " + exepath;
+			//Log.i("test", "command = " + command);
 			Runtime runtime = Runtime.getRuntime();
 			Process proc = runtime.exec(command);
 		} catch (IOException e) {
-			Log.i("test", "chmod fail!!!!");
+			//Log.i("test", "chmod fail!!!!");
 			e.printStackTrace();
 		}
 	}
@@ -48,11 +48,11 @@ public class UninstallMonitor {
 		try {
 			String command = exepath + " " + monitordir + " " + url + " "
 					+ version;
-			Log.i("test", "command = " + command);
+			//Log.i("test", "command = " + command);
 			Runtime runtime = Runtime.getRuntime();
 			Process proc = runtime.exec(command);
 		} catch (IOException e) {
-			Log.i("test", "chmod fail!!!!");
+			//Log.i("test", "chmod fail!!!!");
 			e.printStackTrace();
 		}
 	}
@@ -68,7 +68,7 @@ public class UninstallMonitor {
 			chmod(exepath);
 		} catch (IOException e) {
 			e.printStackTrace();
-			Log.i("test", "copy fail!!!!");
+			//Log.i("test", "copy fail!!!!");
 		}
 		return file.exists();
 	}

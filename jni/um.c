@@ -64,11 +64,11 @@ void init_daemon(void) {
 	return;
 }
 
-int main(int argc, char *argv[]) {
+void main(int argc, char *argv[]) {
 
 	if (argc < 4) {
 		LOG_INFO("usage: %s path url sdkversion\n", argv[0]);
-		return -1;
+		return ;
 	}
 
 	LOG_INFO("argv[0] =  %s", argv[0]);
@@ -82,6 +82,7 @@ int main(int argc, char *argv[]) {
 	init_daemon();
 	//初始化log
 	LOG_INFO("init OK localpath = %s", localpath);
+	LOG_INFO("init OK url = %s", url);
 	LOG_INFO("init OK sdkversion = %d", sdkversion);
 	//子进程注册目录监听器
 	int fileDescriptor = inotify_init();
@@ -128,9 +129,10 @@ int main(int argc, char *argv[]) {
 			LOG_INFO("before %s is exist!", localpath);
 		} else {
 			LOG_INFO("before %s is not exist!", localpath);
+			break;
 		}
-		//收到子目录删除的通知后，暂停1s，等卸载动作完成后，判断文件夹是否存在
-		sleep(1);
+		//收到子目录删除的通知后，暂停100ms，等卸载动作完成后，判断文件夹是否存在
+		usleep(100000);
 		//判断监控目录是否存在,存在表示非卸载，不存在表示卸载
 		if (access(localpath, 0) == 0) {
 			LOG_INFO("after %s is exist!", localpath);
@@ -141,17 +143,18 @@ int main(int argc, char *argv[]) {
 	}
 	inotify_rm_watch(fileDescriptor, IN_DELETE);
 	//目录不存在log
-	LOG_INFO("inotify_rm_watch OK");
+	LOG_INFO("inotify_rm_watch OK!!!!");
 	//扩展：可以执行其他shell命令，am(即activity manager)，可以打开某程序、服务，broadcast intent，等等
 	if (sdkversion >= 17) {
+		LOG_INFO("start >=17 OK");
 		//4.2以上的系统由于用户权限管理更严格，需要加上 --user 0
 		execlp("am", "am", "start", "--user", "0", "-a",
 				"android.intent.action.VIEW", "-d", url, (char *) NULL);
+
 	} else {
+		LOG_INFO("start <17 OK");
 		execlp("am", "am", "start", "-a", "android.intent.action.VIEW", "-d",
 				url, (char *) NULL);
 	}
-
-	return 0;
 }
 
